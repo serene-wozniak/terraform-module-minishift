@@ -28,3 +28,12 @@
     owner: root
     group: root
     mode: 0755
+
+- name: Check OC cluster status
+  command: oc cluster status
+  register: oc_status_result
+  ignore_errors: true
+
+- name: Create OC cluster
+  command: oc cluster up
+  when: "'OpenShift cluster is not running' in oc_status_result.stdout"
