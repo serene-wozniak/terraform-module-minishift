@@ -6,5 +6,4 @@
     ec2_facts:
 
   roles:
-  - docker
-  - openshift
+  - mini-openshift
