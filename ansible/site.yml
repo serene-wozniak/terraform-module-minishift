@@ -1,0 +1,10 @@
+- name: Single-node OpenShift
+  hosts: openshift
+  become: true
+  pre_tasks:
+  - name: Gather facts
+    ec2_facts:
+
+  roles:
+  - docker
+  - openshift

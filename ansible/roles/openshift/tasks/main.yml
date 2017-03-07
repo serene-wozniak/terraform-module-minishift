@@ -1,0 +1,30 @@
+---
+
+# See: https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#linux
+
+- name: Install RubyGem
+  yum:
+    name: gem
+    state: latest
+
+- name: Download openshift client
+  get_url:
+    url: "{{ openshift_client_download_url }}"
+    dest: "{{ openshift_download_dir }}"
+    checksum: "{{ openshift_client_signature }}"
+
+- name: Unpack openshift client
+  unarchive:
+    copy: no
+    src: "{{ openshift_download_dir }}/{{ openshift_client_package_file }}"
+    dest: "{{ openshift_download_dir }}"
+    creates: "{{ openshift_client_unpackaged_dir }}/oc"
+
+- name: Copy oc into bin dir
+  copy:
+    remote_src: yes
+    src: "{{ openshift_download_dir }}/{{ openshift_client_unpackaged_dir }}/oc"
+    dest: /usr/bin/oc
+    owner: root
+    group: root
+    mode: 0755
