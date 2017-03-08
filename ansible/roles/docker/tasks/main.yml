@@ -23,3 +23,5 @@
   notify:
   - Reload systemd
   - Restart docker
+
+- meta: flush_handlers
