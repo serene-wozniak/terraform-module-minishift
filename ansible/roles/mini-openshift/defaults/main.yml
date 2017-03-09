@@ -1,9 +1,9 @@
 ---
 
+
 openshift_version: "v1.4.1"
 openshift_commit: "3f9807a"
 openshift_client_package_file: "openshift-origin-client-tools-{{ openshift_version}}-{{ openshift_commit }}-linux-64bit.tar.gz"
 openshift_client_download_url: "https://github.com/openshift/origin/releases/download/{{ openshift_version }}/{{ openshift_client_package_file }}"
 openshift_client_signature: "sha256:c2ac117e85a968c4d16d5657a31dce0715dcbfa4ab4a7bc49e5c6fd7caffb7da"
-
 openshift_client_unpackaged_dir: "openshift-origin-client-tools-{{ openshift_version }}+{{ openshift_commit }}-linux-64bit"

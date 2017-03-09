@@ -1,0 +1,8 @@
+---
+- name: Start OC cluster with same config
+  command: oc cluster up --use-existing-config
+
+- name: Restart OC cluster
+  command: oc cluster down
+  ignore_errors: true
+  notify: Start OC cluster with same config
