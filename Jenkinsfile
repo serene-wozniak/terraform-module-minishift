@@ -1,7 +1,12 @@
 node {
-  tool 'terraform-0.8.8'
-
-  dir('terraform') {
-    sh 'terraform validate'
+  stage("Checkout") {
+      checkout scm
+  }
+  stage("Validate") {
+    withEnv(["PATH+TERRAFORM=${tool 'terraform'}"]) {
+      dir('terraform') {
+        sh 'terraform validate -no-color'
+      }
+    }
   }
 }
