@@ -2,18 +2,17 @@ resource "aws_instance" "minishift" {
   ami           = "${var.ami}"
   instance_type = "${var.instance_type}"
 
-  subnet_id              = "${element( var.subnets, count.index % length(var.subnets))}"
+  subnet_id              = "${var.subnet}"
   vpc_security_group_ids = ["${aws_security_group.minishift-access.id}"]
-  count                  = "1"
 
   tags {
-    Name   = "${var.minishift-name}-minishift"
+    Name   = "${var.name}-minishift"
     Domain = "${var.domain}"
     Role   = "Openshift All in One Server"
   }
 
   iam_instance_profile = "${var.instance_profile_id}"
-  user_data            = "${module.minishift.cloud_init_config}"
+  user_data            = "${module.minishift_bootstrap.cloud_init_config}"
 }
 
 module "minishift_bootstrap" {
