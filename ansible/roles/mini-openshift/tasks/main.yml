@@ -38,6 +38,24 @@
   command: "oc cluster up --public-hostname='{{ openshift_hostname }}'"
   when: "'OpenShift cluster is not running' in oc_status_result.stdout"
 
+- name: Add AWS config
+  lineinfile:
+    dest: /var/lib/origin/openshift.local.config/master/master-config.yaml
+    regex: '\s\singressIPNetworkCIDR: (.*)'
+    line: '#  ingressIPNetworkCIDR $1'
+
+- name: Add AWS config
+  lineinfile:
+    dest: /var/lib/origin/openshift.local.config/master/master-config.yaml
+    regex: '\s\sapiServerArguments: null'
+    line: '  apiServerArguments: {"cloud-provider": ["aws"]}'
+
+- name: Add AWS config
+  lineinfile:
+    dest: /var/lib/origin/openshift.local.config/master/master-config.yaml
+    regex: '\s\scontrollerArguments: null'
+    line: '  controllerArguments: {"cloud-provider": ["aws"]}'
+
 - name: Add GitHub auth configuration
   blockinfile:
     dest: /var/lib/origin/openshift.local.config/master/master-config.yaml
