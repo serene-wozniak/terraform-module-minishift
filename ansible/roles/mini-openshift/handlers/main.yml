@@ -1,6 +1,6 @@
 ---
 - name: Start OC cluster with same config
-  command: oc cluster up --use-existing-config
+  command: oc cluster up --use-existing-config  --host-data-dir /var/lib/origin/etcd.data.local
 
 - name: Restart OC cluster
   command: oc cluster down

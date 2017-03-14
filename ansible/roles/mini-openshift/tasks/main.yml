@@ -52,6 +52,11 @@
 
 - name: Add AWS config
   lineinfile:
+    dest: /var/lib/origin/openshift.local.config/node-{{ansible_eth0.ipv4.address}}/node-config.yaml
+    line: '  kubeletArguments: {"cloud-provider": ["aws"]}'
+
+- name: Add AWS config
+  lineinfile:
     dest: /var/lib/origin/openshift.local.config/master/master-config.yaml
     regexp: '\s\scontrollerArguments: null'
     line: '  controllerArguments: {"cloud-provider": ["aws"]}'
