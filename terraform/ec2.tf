@@ -16,11 +16,15 @@ resource "aws_instance" "minishift" {
 }
 
 module "minishift_bootstrap" {
-  source              = "git@github.com:serene-wozniak/terraform-module-bootstrap.git//ansible_bootstrap?ref=v0.0.1"
+  source              = "git@github.com:serene-wozniak/terraform-module-bootstrap.git//ansible_bootstrap?ref=master"
   ansible_source_repo = "git@github.com:serene-wozniak/terraform-module-minishift.git"
   ansible_role        = "mini-openshift"
 
-  ansible_facts = {}
+  ansible_facts = {
+    openshift_hostname                  = "minishift${var.name == "" ? "" :  "-${var.name}"}.${var.team}.${var.route53_domain}"
+    openshift_oauth_github_clientsecret = "none"
+    openshift_oauth_github_organisation = "none"
+  }
 
   ssh_ca_publickey      = "${var.ssh_user_ca_publickey}"
   github_ssh_privatekey = "${var.git_private_key}"
