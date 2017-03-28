@@ -1,5 +1,5 @@
 - name: Single-node OpenShift
-  hosts: all
+  hosts: minishift
   become: true
   pre_tasks:
   - name: Gather facts

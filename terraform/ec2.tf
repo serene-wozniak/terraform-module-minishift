@@ -18,7 +18,7 @@ resource "aws_instance" "minishift" {
 module "minishift_bootstrap" {
   source              = "git@github.com:serene-wozniak/terraform-module-bootstrap.git//ansible_bootstrap?ref=master"
   ansible_source_repo = "git@github.com:serene-wozniak/terraform-module-minishift.git"
-  ansible_role        = "mini-openshift"
+  ansible_role        = "minishift"
 
   ansible_facts = {
     openshift_hostname                  = "minishift${var.name == "" ? "" :  "-${var.name}"}.${var.team}.${var.route53_domain}"
