@@ -1,0 +1,9 @@
+- name: Single-node OpenShift
+  hosts: all
+  become: true
+  pre_tasks:
+  - name: Gather facts
+    ec2_facts:
+
+  roles:
+  - mini-openshift
