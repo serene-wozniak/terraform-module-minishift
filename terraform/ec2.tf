@@ -23,6 +23,7 @@ module "minishift_bootstrap" {
   ansible_facts = {
     openshift_hostname                  = "minishift${var.name == "" ? "" :  "-${var.name}"}.${var.team}.${var.route53_domain}"
     openshift_oauth_github_clientsecret = "none"
+    openshift_oauth_github_clientid     = "none"
     openshift_oauth_github_organisation = "none"
   }
 
