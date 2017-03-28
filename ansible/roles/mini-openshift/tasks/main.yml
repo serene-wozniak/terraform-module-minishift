@@ -35,7 +35,7 @@
   ignore_errors: true
 
 - name: Create OC cluster
-  command: "oc cluster up --public-hostname='{{ openshift_hostname }}'"
+  command: "oc cluster up --public-hostname='{{ openshift_hostname }}' --host-data-dir /var/lib/origin/etcd.data.local --logging --metrics"
   when: "'OpenShift cluster is not running' in oc_status_result.stdout"
 
 - name: Add AWS config
