@@ -11,7 +11,10 @@ resource "aws_instance" "minishift" {
     Role   = "Openshift All in One Server"
   }
 
-  root_block_device    = {}
+  root_block_device = {
+    volume_size = "120"
+  }
+
   iam_instance_profile = "${var.instance_profile_id}"
   user_data            = "${module.minishift_bootstrap.cloud_init_config}"
 }
