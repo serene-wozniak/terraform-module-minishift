@@ -62,8 +62,7 @@
     line: '  controllerArguments: {"cloud-provider": ["aws"]}'
 - name: login
   shell: oc login -u system:admin
-- name: Add Logging labels
-  shell: oc label node --all logging-infra-fluentd=true
+
 
 - name: regenerate our SSL certificates
   shell: oc adm ca create-server-cert --signer-cert=/var/lib/origin/openshift.local.config/master/ca.crt  --signer-key=/var/lib/origin/openshift.local.config/master/ca.key  --signer-serial=/var/lib/origin/openshift.local.config/master/ca.serial.txt  --hostnames=localhost,$(curl http://169.254.169.254/latest/meta-data/local-ipv4),127.0.0.1,172.17.0.1,$(curl http://169.254.169.254/latest/meta-data/local-hostname) --cert /var/lib/origin/openshift.local.config/node-$(curl http://169.254.169.254/latest/meta-data/local-ipv4)/server.crt --key /var/lib/origin/openshift.local.config/node-$(curl http://169.254.169.254/latest/meta-data/local-ipv4)/server.key
