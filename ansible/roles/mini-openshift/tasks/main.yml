@@ -86,6 +86,8 @@
             clientSecret: {{ openshift_oauth_github_clientsecret }}
             organizations:
             - {{ openshift_oauth_github_organisation }}
+  when: "'OpenShift cluster is not running' in oc_status_result.stdout"
   notify:
   - Restart OC cluster
 
+include: router-config.yml

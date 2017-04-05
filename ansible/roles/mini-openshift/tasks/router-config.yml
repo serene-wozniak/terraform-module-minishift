@@ -1,0 +1,39 @@
+- name: Delete existing router
+  shell: oc delete all -l 'router=router' ; oc delete secret router-certs
+  when: "'OpenShift cluster is not running' in oc_status_result.stdout"
+  tags:
+    - router
+
+- name: Create new router certificate
+  shell: cat /etc/pki/tls/certs/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/tls/private/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/ca-trust/source/anchors/giffgaff.crt > /etc/pki/tls/private/giffgaff.router.pem
+  tags:
+    - router
+
+- name: Create new router using certificate
+  shell: oc project default && oc adm router --default-cert=/etc/pki/tls/private/giffgaff.router.pem --service-account=router
+  tags:
+    - router
+
+- name: Grab certificate contents
+  slurp:
+    src: {{item}}
+  with_items:
+    - "/etc/pki/ca-trust/source/anchors/giffgaff.crt" #outer-CA
+    - "/etc/pki/tls/certs/{{openshift_hostname}}.pem" #outer-cert
+    - "/etc/pki/tls/private/{{openshift_hostname}}.pem" #outer-key
+    - "/var/lib/origin/openshift.local.config/master/ca.crt" #master-ca
+  register: grabbed_certs
+  tags:
+    - router
+
+- name: Template a router config
+  template:
+    src: console-router.yml
+    dest: /bootstrap/console-route.yml
+  vars:
+    outer_ca_cert: "{{grabbed_certs.results[0].content | b64decode}}"
+    outer_cert: "{{grabbed_certs.results[1].content | b64decode}}"
+    outer_key: "{{grabbed_certs.results[2].content | b64decode}}"
+    dest_ca_cert: "{{grabbed_certs.results[3].content | b64decode}}"
+  tags:
+    - router

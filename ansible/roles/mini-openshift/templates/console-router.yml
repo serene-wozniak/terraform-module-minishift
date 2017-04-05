@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: master-route
+  name: openshift-master
+spec:
+  ports:
+  - name: 8443-tcp
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  selector: {}
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  creationTimestamp: null
+  name: openshift-master
+  labels:
+    app: master-route
+subsets:
+- addresses:
+  - ip: {{ansible_eth0.ipv4.address}}
+  ports:
+  - name: 8443-tcp
+    port: 8443
+    protocol: TCP
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: master-console
+  namespace: openshift-infra
+  labels:
+    app: master-route
+spec:
+  host: {{openshift_hostname}}
+  port:
+    targetPort: 8443-tcp
+  tls:
+    caCertificate: |-
+{{outer_ca_cert | indent(6, True) }}
+    certificate: |-
+{{outer_cert | indent(6, True) }}
+    destinationCACertificate: |-
+{{dest_ca_cert | indent(6, True) }}
+    key: |-
+{{outer_key | indent(6, True) }}
+    termination: reencrypt
+  to:
+    kind: Service
+    name: openshift-master
+    weight: 100
+  wildcardPolicy: None
