@@ -4,6 +4,30 @@
   tags:
     - router
 
+
+- name: Slurp Wildcards
+  slurp:
+    src: "{{item}}"
+  with_items:
+    - "/etc/pki/tls/certs/wildcard_{{openshift_hostname}}.pem" #wildcard_cert
+    - "/etc/pki/tls/private/wildcard_{{openshift_hostname}}.pem" #wildcard_key
+    - "/etc/pki/ca-trust/source/anchors/giffgaff.crt" #ca_cert
+  register: wildcard_grabbed_certs
+  tags:
+    - router
+
+
+- name: Template a router config
+  template:
+    src: router-cert.pem
+    dest: /etc/pki/tls/private/giffgaff.router.pem
+  vars:
+    wildcard_cert: "{{wildcard_grabbed_certs.results[0].content | b64decode}}"
+    wildcard_key: "{{wildcard_grabbed_certs.results[1].content | b64decode}}"
+    ca_cert: "{{wildcard_grabbed_certs.results[2].content | b64decode}}"
+  tags:
+    - router
+
 - name: Create new router certificate
   shell: 'cat /etc/pki/tls/certs/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/tls/private/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/ca-trust/source/anchors/giffgaff.crt > /etc/pki/tls/private/giffgaff.router.pem'
   tags:
