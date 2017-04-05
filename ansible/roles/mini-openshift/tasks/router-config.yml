@@ -60,7 +60,7 @@
 
 - name: Replace
   replace:
-    path: /var/lib/origin/openshift.local.config/master/master-config.yaml
+    dest: /var/lib/origin/openshift.local.config/master/master-config.yaml
     regexp: "{{openshift_hostname}}:8443"
     replace: "{{openshift_hostname}}"
     backup: yes
