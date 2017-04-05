@@ -16,7 +16,7 @@
   register: certificate_request
 
 - debug:
-    msg: Requesting Certificates for {{certificate_hostname}}
+    msg: Requesting Certificates for {{certificate_hostname}} and nonce {{ certificate_hostname | to_uuid }}
 
 - name: Log the machine into vault
   uri:
