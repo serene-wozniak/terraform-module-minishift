@@ -1,11 +1,11 @@
 - name: Delete existing router
-  shell: oc project default && oc delete all -l 'router=router' ; oc delete secret router-certs
+  shell: oc project default && oc delete all -l 'router=router' ; oc delete secret router-certs || echo 'done'
   # when: "'OpenShift cluster is not running' in oc_status_result.stdout"
   tags:
     - router
 
 - name: Create new router certificate
-  shell: cat /etc/pki/tls/certs/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/tls/private/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/ca-trust/source/anchors/giffgaff.crt > /etc/pki/tls/private/giffgaff.router.pem
+  shell: 'cat /etc/pki/tls/certs/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/tls/private/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/ca-trust/source/anchors/giffgaff.crt > /etc/pki/tls/private/giffgaff.router.pem'
   tags:
     - router
 
