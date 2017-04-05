@@ -66,3 +66,4 @@
     backup: yes
   tags:
     - router
+  notify: Restart OC cluster
