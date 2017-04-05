@@ -8,11 +8,15 @@
 
 - meta: flush_handlers
 
+
 - name: Get pks7 certificate
   uri:
     url: http://169.254.169.254/latest/dynamic/instance-identity/pkcs7
     return_content: yes
   register: certificate_request
+
+- debug:
+    msg: Requesting Certificates for {{certificate_hostname}}
 
 - name: Log the machine into vault
   uri:
