@@ -16,7 +16,7 @@
 
 - name: Grab certificate contents
   slurp:
-    src: {{item}}
+    src: "{{item}}"
   with_items:
     - "/etc/pki/ca-trust/source/anchors/giffgaff.crt" #outer-CA
     - "/etc/pki/tls/certs/{{openshift_hostname}}.pem" #outer-cert
