@@ -90,4 +90,4 @@
   notify:
   - Restart OC cluster
 
-include: router-config.yml
+- include: router-config.yml
