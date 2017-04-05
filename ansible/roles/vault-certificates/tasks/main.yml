@@ -20,7 +20,7 @@
 
 - name: Log the machine into vault
   uri:
-    url: https://{{vault_address}}/v1/auth/aws-ec2/login
+    url: "{{vault_address}}/v1/auth/aws-ec2/login"
     method: POST
     body: "{\"role\":\"jenkins-server\", \"pkcs7\": \"{{certificate_request.content|replace('\n','')}}\", \"nonce\": \"{{ certificate_hostname | to_uuid }}\"}"
     body_format: json
@@ -36,7 +36,7 @@
   uri:
     headers:
       X-Vault-Token: "{{(vault_auth_request.content|from_json)['auth']['client_token']}}"
-    url: https://vault.aws.int.giffgaff.co.uk/v1/pki/issue/aws-int-giffgaff-shortlived-server
+    url: "{{vault_address}}/v1/pki/issue/aws-int-giffgaff-shortlived-server"
     method: POST
     body: |
         {
