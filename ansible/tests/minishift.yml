@@ -1,0 +1,13 @@
+---
+- name: Bring up docker containers for docker connection inventory iface
+  hosts: localhost
+  roles:
+    - role: chrismeyersfsu.provision_docker
+      provision_docker_privileged: true,
+      provision_docker_inventory_group: "{{ groups['minishift'] }}"
+      provision_docker_use_docker_connection: true
+
+- name: Test Minishift role
+  hosts: minishift
+  roles:
+    - role: ../roles/mini-openshift

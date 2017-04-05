@@ -28,11 +28,6 @@
   tags:
     - router
 
-- name: Create new router certificate
-  shell: 'cat /etc/pki/tls/certs/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/tls/private/wildcard_{{openshift_hostname}}.pem <(echo) /etc/pki/ca-trust/source/anchors/giffgaff.crt > /etc/pki/tls/private/giffgaff.router.pem'
-  tags:
-    - router
-
 - name: Create new router using certificate
   shell: oc project default && oc adm router --default-cert=/etc/pki/tls/private/giffgaff.router.pem --service-account=router
   tags:

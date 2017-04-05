@@ -1,0 +1,3 @@
+# inventory
+[minishift]
+optimus image="ansible-test"
