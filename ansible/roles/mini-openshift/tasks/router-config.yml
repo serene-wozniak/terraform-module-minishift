@@ -1,6 +1,6 @@
 - name: Delete existing router
-  shell: oc delete all -l 'router=router' ; oc delete secret router-certs
-  when: "'OpenShift cluster is not running' in oc_status_result.stdout"
+  shell: oc project default && oc delete all -l 'router=router' ; oc delete secret router-certs
+  # when: "'OpenShift cluster is not running' in oc_status_result.stdout"
   tags:
     - router
 
