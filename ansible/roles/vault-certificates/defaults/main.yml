@@ -1,0 +1,2 @@
+vault_addr: 'https://vault.aws.int.giffgaff.co.uk'
+certificate_hostname: "{{ansible_hostname}}"

@@ -6,4 +6,5 @@
     ec2_facts:
 
   roles:
+  - { role: vault-certificates, certificate_hostname: "{{openshift_hostname}}" }
   - mini-openshift
